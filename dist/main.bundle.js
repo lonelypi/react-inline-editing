@@ -341,8 +341,7 @@ var EditableLabel = function (_React$Component) {
         value: function componentDidUpdate(prevProps) {
             if (prevProps.text !== this.props.text) {
                 this.setState({
-                    text: this.props.text || "",
-                    icon: this.props.icon || ""
+                    text: this.props.text || ""
                 });
             }
 
