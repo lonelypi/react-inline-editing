@@ -330,9 +330,10 @@ var EditableLabel = function (_React$Component) {
 
         _this.state = {
             isEditing: _this.props.isEditing || false,
-            text: _this.props.text || "",
-            icon: _this.props.icon || ""
+            text: _this.props.text || ""
         };
+
+        _this.icon = _this.props.icon;
         return _this;
     }
 
@@ -438,22 +439,22 @@ var EditableLabel = function (_React$Component) {
             }
 
             var labelText = this.isTextValueValid() ? this.state.text : this.props.labelPlaceHolder || DEFAULT_LABEL_PLACEHOLDER;
-            var iconLabel = this.state.icon;
+            var iconLabel = this.icon;
 
             return _react2.default.createElement(
                 'div',
-                null,
+                { onClick: this.handleFocus },
                 _react2.default.createElement(
                     'label',
                     { className: this.props.labelClassName,
-                        onClick: this.handleFocus,
+
                         style: {
                             fontSize: this.props.labelFontSize,
                             fontWeight: this.props.labelFontWeight
                         } },
-                    labelText,
-                    iconLabel
-                )
+                    labelText
+                ),
+                iconLabel
             );
         }
     }]);
