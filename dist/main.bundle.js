@@ -1606,9 +1606,14 @@ var EditableLabel = function (_React$Component) {
         { onClick: this._handleFocus,
           style: _extends({
             cursor: 'pointer',
-            transition: 'all .3s ease-in-out'
+            transition: 'all .3s ease-in-out',
+            borderLeft: '1px solid transparent',
+            borderBottom: '1px dashed transparent',
+            paddingLeft: 5
+
           }, hover && {
-            borderLeft: '1px solid #555555'
+            borderLeft: '1px solid #555555',
+            borderBottom: '1px dashed #5555'
           }),
           onMouseOver: this._handleMouseEnter,
           onMouseLeave: this._handleMouseLeave
@@ -1625,7 +1630,11 @@ var EditableLabel = function (_React$Component) {
         ),
         _react2.default.createElement(
           'span',
-          null,
+          { style: _extends({
+              visibility: 'hidden'
+            }, hover && {
+              visibility: 'visible'
+            }) },
           iconLabel
         )
       );

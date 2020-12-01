@@ -35,11 +35,11 @@ export default class EditableLabel extends React.Component {
     return (typeof this.state.text != "undefined" && this.state.text.trim().length > 0)
   }
 
-  _handleMouseEnter () {
-    this.setState({ ...this.state, hover: true });
+  _handleMouseEnter() {
+    this.setState({ ...this.state, hover: true })
   }
-  _handleMouseLeave () {
-    this.setState({ ...this.state, hover: false });
+  _handleMouseLeave() {
+    this.setState({ ...this.state, hover: false })
   }
 
   _handleFocus() {
@@ -115,20 +115,25 @@ export default class EditableLabel extends React.Component {
     const labelText = this._isTextValueValid() ? this.state.text : (this.props.labelPlaceHolder || DEFAULT_LABEL_PLACEHOLDER)
     const iconLabel = this.icon
     const hover = this.state.hover
-    
 
-    return <div onClick={this._handleFocus} 
+
+    return <div onClick={this._handleFocus}
       style={{
         cursor: 'pointer',
         transition: 'all .3s ease-in-out',
+        borderLeft: '1px solid transparent',
+        borderBottom: '1px dashed transparent',
+        paddingLeft: 5,
+
         ...(hover && {
-          borderLeft: '1px solid #555555'
+          borderLeft: '1px solid #555555',
+          borderBottom: '1px dashed #5555'
         })
       }}
       onMouseOver={this._handleMouseEnter}
       onMouseLeave={this._handleMouseLeave}
     >
-      <label 
+      <label
         style={{
           cursor: 'pointer',
           fontSize: this.props.labelFontSize,
@@ -136,7 +141,12 @@ export default class EditableLabel extends React.Component {
         }}>
         {labelText}
       </label>
-      <span>{iconLabel}</span>
+      <span style={{
+        visibility: 'hidden', 
+        ...(hover && {
+          visibility: 'visible'
+        })
+      }}>{iconLabel}</span>
     </div>
   }
 }
