@@ -1591,17 +1591,9 @@ var EditableLabel = function (_React$Component) {
             cursor: 'pointer',
             transition: 'all .3s ease-in-out',
 
-            "&:hover": {
+            '&:hover': {
               borderLeft: '1px solid #555555',
               borderBottom: '1px dashed #555555'
-            },
-
-            "span": {
-              visibility: 'hidden',
-
-              "&:hover": {
-                visibility: 'visible'
-              }
             }
           }
         },
@@ -1609,6 +1601,7 @@ var EditableLabel = function (_React$Component) {
           'label',
           {
             style: {
+              cursor: 'pointer',
               fontSize: this.props.labelFontSize,
               fontWeight: this.props.labelFontWeight
             } },
