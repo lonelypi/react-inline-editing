@@ -103,8 +103,9 @@ export default class EditableLabel extends React.Component {
 
     const labelText = this._isTextValueValid() ? this.state.text : (this.props.labelPlaceHolder || DEFAULT_LABEL_PLACEHOLDER)
     const iconLabel = this.icon
-    return <div onClick={this._handleFocus} 
-      style={{
+
+    const styles = {
+      myStyleDiv: {
         cursor: 'pointer',
         transition: 'all .3s ease-in-out',
 
@@ -112,7 +113,10 @@ export default class EditableLabel extends React.Component {
           borderLeft: '1px solid #555555',
           borderBottom: '1px dashed #555555'
         }
-      }}
+      }
+    }
+    return <div onClick={this._handleFocus} 
+      className={styles.myStyleDiv}
     >
       <label 
         style={{
