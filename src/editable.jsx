@@ -106,11 +106,11 @@ export default class EditableLabel extends React.Component {
     const labelText = this._isTextValueValid() ? this.state.text : (this.props.labelPlaceHolder || DEFAULT_LABEL_PLACEHOLDER)
     const iconLabel = this.icon
     return <DivLabel onClick={this._handleFocus}>
-      <LabelContent className={this.props.labelClassName}  
-        style={{
-          fontSize: this.props.labelFontSize,
-          fontWeight: this.props.labelFontWeight,
-        }}>
+      <LabelContent
+        className={this.props.labelClassName}
+        fontSize={this.props.labelFontSize}
+        fontWeight={this.props.labelFontWeight}
+      >
         {labelText}
       </LabelContent>
       <span>{iconLabel}</span>

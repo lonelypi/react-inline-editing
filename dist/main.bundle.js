@@ -1591,11 +1591,11 @@ var EditableLabel = function (_React$Component) {
         { onClick: this._handleFocus },
         _react2.default.createElement(
           _index.LabelContent,
-          { className: this.props.labelClassName,
-            style: {
-              fontSize: this.props.labelFontSize,
-              fontWeight: this.props.labelFontWeight
-            } },
+          {
+            className: this.props.labelClassName,
+            fontSize: this.props.labelFontSize,
+            fontWeight: this.props.labelFontWeight
+          },
           labelText
         ),
         _react2.default.createElement(
@@ -1651,7 +1651,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.LabelContent = exports.DivLabel = undefined;
 
 var _templateObject = _taggedTemplateLiteral(['\n  cursor: pointer;\n\n  span {\n    visibility: hidden;\n    transition: all .3s ease-in-out;\n\n    :hover{\n      visibility: visible;\n    }\n  }\n'], ['\n  cursor: pointer;\n\n  span {\n    visibility: hidden;\n    transition: all .3s ease-in-out;\n\n    :hover{\n      visibility: visible;\n    }\n  }\n']),
-    _templateObject2 = _taggedTemplateLiteral(['\n  transition: all .3s ease-in-out;\n\n  :hover {\n    border-left: 1px solid #555555;\n    border-bottom: 1px dashed #555555;\n  }\n'], ['\n  transition: all .3s ease-in-out;\n\n  :hover {\n    border-left: 1px solid #555555;\n    border-bottom: 1px dashed #555555;\n  }\n']);
+    _templateObject2 = _taggedTemplateLiteral(['\n  transition: all .3s ease-in-out;\n  font-weight: ', ';\n  font-size: ', ';\n\n  :hover {\n    border-left: 1px solid #555555;\n    border-bottom: 1px dashed #555555;\n  }\n'], ['\n  transition: all .3s ease-in-out;\n  font-weight: ', ';\n  font-size: ', ';\n\n  :hover {\n    border-left: 1px solid #555555;\n    border-bottom: 1px dashed #555555;\n  }\n']);
 
 var _styledComponents = __webpack_require__(14);
 
@@ -1663,7 +1663,11 @@ function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defi
 
 var DivLabel = exports.DivLabel = _styledComponents2.default.div(_templateObject);
 
-var LabelContent = exports.LabelContent = _styledComponents2.default.label(_templateObject2);
+var LabelContent = exports.LabelContent = _styledComponents2.default.label(_templateObject2, function (props) {
+  return props.fontWeight ? props.fontWeight : 400;
+}, function (props) {
+  return props.fontSize ? props.fontSize : 12;
+});
 
 /***/ }),
 /* 14 */
