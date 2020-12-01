@@ -1,118 +1,120 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-const ENTER_KEY_CODE = 13;
-const DEFAULT_LABEL_PLACEHOLDER = "Click To Edit";
+import Pen from './assets/pen.svg'
 
- export default class EditableLabel extends React.Component {
+const ENTER_KEY_CODE = 13
+const DEFAULT_LABEL_PLACEHOLDER = "Click To Edit"
+
+export default class EditableLabel extends React.Component {
     constructor(props) {
-        super(props);
+        super(props)
 
         this.state = {
-        	isEditing: this.props.isEditing || false,
-			    text: this.props.text || "",
-        };
+            isEditing: this.props.isEditing || false,
+            text: this.props.text || "",
+        }
     }
 
     componentDidUpdate(prevProps) {
-      if(prevProps.text !== this.props.text) {
-          this.setState({
-            text: this.props.text || "",
-        });
-      }
+        if (prevProps.text !== this.props.text) {
+            this.setState({
+                text: this.props.text || "",
+            })
+        }
 
-      if(prevProps.isEditing !== this.props.isEditing) {
-        this.setState({
-          isEditing: this.state.isEditing || this.props.isEditing || false
-      });
-      }
+        if (prevProps.isEditing !== this.props.isEditing) {
+            this.setState({
+                isEditing: this.state.isEditing || this.props.isEditing || false
+            })
+        }
     }
-    
+
     isTextValueValid = () => {
-        return (typeof this.state.text != "undefined" && this.state.text.trim().length > 0);
+        return (typeof this.state.text != "undefined" && this.state.text.trim().length > 0)
     }
-    
+
     handleFocus = () => {
-        if(this.state.isEditing) {
-            if(typeof this.props.onFocusOut === 'function') {
-                this.props.onFocusOut(this.state.text);
+        if (this.state.isEditing) {
+            if (typeof this.props.onFocusOut === 'function') {
+                this.props.onFocusOut(this.state.text)
             }
         }
         else {
-            if(typeof this.props.onFocus === 'function') {
-                this.props.onFocus(this.state.text);
+            if (typeof this.props.onFocus === 'function') {
+                this.props.onFocus(this.state.text)
             }
         }
 
-        if(this.isTextValueValid()){
+        if (this.isTextValueValid()) {
             this.setState({
                 isEditing: !this.state.isEditing,
-            });
-        }else{
-            if(this.state.isEditing){
+            })
+        } else {
+            if (this.state.isEditing) {
                 this.setState({
                     isEditing: this.props.emptyEdit || false
-                });
-            }else{
+                })
+            } else {
                 this.setState({
                     isEditing: true
-                });
+                })
             }
         }
     }
-	
+
     handleChange = () => {
-    	this.setState({
-        	text: this.textInput.value,
-        });
+        this.setState({
+            text: this.textInput.value,
+        })
     }
 
     handleKeyDown = (e) => {
-        if(e.keyCode === ENTER_KEY_CODE){
-            this.handleEnterKey();
+        if (e.keyCode === ENTER_KEY_CODE) {
+            this.handleEnterKey()
         }
     }
 
     handleEnterKey = () => {
-        this.handleFocus();
+        this.handleFocus()
     }
 
     render() {
-    	if(this.state.isEditing) {
-        	return <div>
-        	    <input type="text" 
+        if (this.state.isEditing) {
+            return <div>
+                <input type="text"
                     className={this.props.inputClassName}
-                    ref={(input) => { this.textInput = input; }}
-                    value={this.state.text} 
+                    ref={(input) => { this.textInput = input }}
+                    value={this.state.text}
                     onChange={this.handleChange}
                     onBlur={this.handleFocus}
                     onKeyDown={this.handleKeyDown}
-                    style={{ 
-                    	width: this.props.inputWidth,
+                    style={{
+                        width: this.props.inputWidth,
                         height: this.props.inputHeight,
                         fontSize: this.props.inputFontSize,
                         fontWeight: this.props.inputFontWeight,
                         borderWidth: this.props.inputBorderWidth,
-               			
+
                     }}
                     maxLength={this.props.inputMaxLength}
                     placeholder={this.props.inputPlaceHolder}
                     tabIndex={this.props.inputTabIndex}
-                    autoFocus/>
-        	</div>
+                    autoFocus />
+            </div>
         }
-        
-        const labelText = this.isTextValueValid() ? this.state.text : (this.props.labelPlaceHolder || DEFAULT_LABEL_PLACEHOLDER);
-        return <div>
+
+        const labelText = this.isTextValueValid() ? this.state.text : (this.props.labelPlaceHolder || DEFAULT_LABEL_PLACEHOLDER)
+        return <div onClick={this.handleFocus}>
             <label className={this.props.labelClassName}
-                onClick={this.handleFocus}
                 style={{
-                	fontSize: this.props.labelFontSize,
+                    fontSize: this.props.labelFontSize,
                     fontWeight: this.props.labelFontWeight,
                 }}>
                 {labelText}
             </label>
-        </div>;
+            <Pen/>
+        </div>
     }
 }
 
@@ -138,4 +140,4 @@ EditableLabel.propTypes = {
 
     onFocus: PropTypes.func,
     onFocusOut: PropTypes.func
-};
+}
