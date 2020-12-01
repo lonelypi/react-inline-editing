@@ -1631,7 +1631,8 @@ var EditableLabel = function (_React$Component) {
         _react2.default.createElement(
           'span',
           { style: _extends({
-              visibility: 'hidden'
+              visibility: 'hidden',
+              transition: 'all .3s ease-in-out'
             }, hover && {
               visibility: 'visible'
             }) },

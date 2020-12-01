@@ -143,6 +143,7 @@ export default class EditableLabel extends React.Component {
       </label>
       <span style={{
         visibility: 'hidden', 
+        transition: 'all .3s ease-in-out',
         ...(hover && {
           visibility: 'visible'
         })
