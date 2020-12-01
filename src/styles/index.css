@@ -1,0 +1,24 @@
+.divContainer {
+  cursor: pointer;
+}
+
+.divContainer + span { 
+  visibility: hidden;
+  transition: all .3s ease-in-out;
+
+}
+
+.divContainer:hover + span {
+    visibility: visible;
+}
+
+
+.labelContent {
+  transition: all .3s ease-in-out;
+}
+
+.labelContent:hover {
+    border-left: 1px solid #555555;
+    border-bottom: 1px dashed #555555;
+  
+}

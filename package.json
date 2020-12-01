@@ -32,8 +32,10 @@
   },
   "homepage": "",
   "dependencies": {
+    "css-loader": "^5.0.1",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
+    "style-loader": "^2.0.0",
     "styled-components": "^5.2.1"
   },
   "peerDependencies": {
