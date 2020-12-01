@@ -1465,45 +1465,34 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var ENTER_KEY_CODE = 13;
-var ESCAPE_KEY_CODE = 27;
 var DEFAULT_LABEL_PLACEHOLDER = "Click To Edit";
 
-var Editable = function (_React$Component) {
-  _inherits(Editable, _React$Component);
+var EditableLabel = function (_React$Component) {
+  _inherits(EditableLabel, _React$Component);
 
-  function Editable(props) {
-    _classCallCheck(this, Editable);
+  function EditableLabel(props) {
+    _classCallCheck(this, EditableLabel);
 
-    var _this = _possibleConstructorReturn(this, (Editable.__proto__ || Object.getPrototypeOf(Editable)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (EditableLabel.__proto__ || Object.getPrototypeOf(EditableLabel)).call(this, props));
 
     _this.state = {
-      editZone: _this.props.editZone,
-      text: _this.props.text || "",
-      originalText: _this.props.text || "",
-      validateOnEnterKey: _this.props.validateOnEnterKey || _this.props.editZone === undefined,
-      cancelOnEscapeKey: _this.props.cancelOnEscapeKey || _this.props.editZone === undefined,
-      isEditable: _this.props.isEditable != false,
       isEditing: _this.props.isEditing || false,
-      isOver: false
+      text: _this.props.text || ""
     };
+
+    _this.icon = _this.props.icon;
 
     _this._handleFocus = _this._handleFocus.bind(_this);
     _this._handleChange = _this._handleChange.bind(_this);
     _this._handleKeyDown = _this._handleKeyDown.bind(_this);
-    _this._handleClickOutside = _this._handleClickOutside.bind(_this);
-    _this._refEditZone = _this._refEditZone.bind(_this);
     return _this;
   }
 
-  _createClass(Editable, [{
+  _createClass(EditableLabel, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       this.setState({
-        editZone: nextProps.editZone,
         text: nextProps.text || "",
-        validateOnEnterKey: nextProps.validateOnEnterKey || nextProps.editZone === undefined,
-        cancelOnEscapeKey: nextProps.cancelOnEscapeKey || nextProps.editZone === undefined,
-        isEditable: nextProps.isEditable != false,
         isEditing: this.state.isEditing || nextProps.isEditing || false
       });
     }
@@ -1519,201 +1508,110 @@ var Editable = function (_React$Component) {
         if (typeof this.props.onFocusOut === 'function') {
           this.props.onFocusOut(this.state.text);
         }
-      } else if (typeof this.props.onFocus === 'function') {
-        this.props.onFocus(this.state.text);
+      } else {
+        if (typeof this.props.onFocus === 'function') {
+          this.props.onFocus(this.state.text);
+        }
       }
-
-      var isEditing;
 
       if (this._isTextValueValid()) {
-        isEditing = !this.state.isEditing;
-      } else if (this.state.isEditing) {
-        isEditing = this.props.emptyEdit || false;
-      } else {
-        isEditing = true;
-      }
-
-      if (!this.state.isEditing && isEditing) {
         this.setState({
-          originalText: this.state.text
+          isEditing: !this.state.isEditing
         });
-
-        document.addEventListener('mousedown', this._handleClickOutside);
-      }
-
-      this.setState({
-        isEditing: isEditing
-      });
-    }
-  }, {
-    key: '_handleClickOutside',
-    value: function _handleClickOutside(e) {
-      if (this.editZone && !this.editZone.contains(e.target)) {
-        document.removeEventListener('mousedown', this._handleClickOutside);
-        this._handleFocus();
-      }
-    }
-  }, {
-    key: 'onChange',
-    value: function onChange(text) {
-      if (this.props.onChange) {
-        this.props.onChange(text);
       } else {
-        this.setState({
-          text: text
-        });
+        if (this.state.isEditing) {
+          this.setState({
+            isEditing: this.props.emptyEdit || false
+          });
+        } else {
+          this.setState({
+            isEditing: true
+          });
+        }
       }
     }
   }, {
     key: '_handleChange',
-    value: function _handleChange(e) {
-      this.onChange(e.target.value);
+    value: function _handleChange() {
+      this.setState({
+        text: this.textInput.value
+      });
     }
   }, {
     key: '_handleKeyDown',
     value: function _handleKeyDown(e) {
-      if (this.state.validateOnEnterKey && e.keyCode === ENTER_KEY_CODE) {
+      if (e.keyCode === ENTER_KEY_CODE) {
         this._handleEnterKey();
-      } else if (this.state.cancelOnEscapeKey && e.keyCode === ESCAPE_KEY_CODE) {
-        this._handleEscapeKey();
       }
     }
   }, {
     key: '_handleEnterKey',
     value: function _handleEnterKey() {
-      this.setState({
-        originalText: this.state.text
-      });
-
       this._handleFocus();
-    }
-  }, {
-    key: '_handleEscapeKey',
-    value: function _handleEscapeKey() {
-      this.setState({
-        text: this.state.originalText
-      });
-
-      this.onChange(this.state.originalText);
-      this._handleFocus();
-    }
-  }, {
-    key: '_refEditZone',
-    value: function _refEditZone(element) {
-      this.editZone = element;
-    }
-  }, {
-    key: '_getEditZone',
-    value: function _getEditZone(text) {
-      var _this2 = this;
-
-      if (this.state.editZone) {
-        var editZone;
-
-        if (typeof this.state.editZone === 'function') {
-          editZone = this.state.editZone(text);
-        } else {
-          editZone = this.state.editZone;
-        }
-
-        return _react2.default.createElement(
-          'span',
-          {
-            onMouseOut: function onMouseOut() {
-              return _this2.setState({ isOver: false });
-            },
-            ref: function ref(_ref) {
-              _this2.editZone = _ref;
-            }
-          },
-          editZone
-        );
-      } else {
-        return _react2.default.createElement('input', { type: 'text',
-          value: text,
-          onMouseOut: function onMouseOut() {
-            return _this2.setState({ isOver: false });
-          },
-          onChange: this._handleChange,
-          onBlur: this._handleFocus,
-          onKeyDown: this._handleKeyDown,
-          ref: function ref(_ref2) {
-            _this2.editZone = _ref2;
-          },
-          autoFocus: true
-        });
-      }
-    }
-  }, {
-    key: '_getNormalZone',
-    value: function _getNormalZone(text) {
-      var _this3 = this;
-
-      var zone = this.props.children || text;
-      var style = this.state.isEditable ? {
-        cursor: 'pointer'
-      } : {};
-
-      if (typeof zone !== 'string') {
-        style.display = 'inherit';
-      }
-
-      if (this.state.isEditable) {
-        var props = {
-          className: this.props.className,
-          onMouseOver: function onMouseOver() {
-            _this3.state.isEditable && _this3.setState({ isOver: true });
-          },
-          onMouseOut: function onMouseOut() {
-            _this3.setState({ isOver: false });
-          },
-          onClick: this._handleFocus,
-          style: style
-        };
-
-        if (this.state.isOver) {
-          return _react2.default.createElement(
-            'mark',
-            props,
-            zone
-          );
-        } else {
-          return _react2.default.createElement(
-            'span',
-            props,
-            zone
-          );
-        }
-      } else {
-        return zone;
-      }
     }
   }, {
     key: 'render',
     value: function render() {
-      if (this.state.isEditable && this.state.isEditing) {
-        return this._getEditZone(this.state.text);
-      } else {
-        var text = this._isTextValueValid() ? this.state.text : this.props.labelPlaceHolder || DEFAULT_LABEL_PLACEHOLDER;
+      var _this2 = this;
 
-        return this._getNormalZone(text);
+      if (this.state.isEditing) {
+        return _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement('input', { type: 'text',
+            className: this.props.inputClassName,
+            ref: function ref(input) {
+              _this2.textInput = input;
+            },
+            value: this.state.text,
+            onChange: this._handleChange,
+            onBlur: this._handleFocus,
+            onKeyDown: this._handleKeyDown,
+            style: {
+              width: this.props.inputWidth,
+              height: this.props.inputHeight,
+              fontSize: this.props.inputFontSize,
+              fontWeight: this.props.inputFontWeight,
+              borderWidth: this.props.inputBorderWidth
+
+            },
+            maxLength: this.props.inputMaxLength,
+            placeholder: this.props.inputPlaceHolder,
+            tabIndex: this.props.inputTabIndex,
+            autoFocus: true })
+        );
       }
+
+      var labelText = this._isTextValueValid() ? this.state.text : this.props.labelPlaceHolder || DEFAULT_LABEL_PLACEHOLDER;
+      var iconLabel = this.icon;
+      return _react2.default.createElement(
+        'div',
+        { onClick: this._handleFocus, style: { cursor: 'pointer' } },
+        _react2.default.createElement(
+          'label',
+          { className: this.props.labelClassName,
+            style: {
+              fontSize: this.props.labelFontSize,
+              fontWeight: this.props.labelFontWeight
+            } },
+          labelText
+        ),
+        iconLabel
+      );
     }
   }]);
 
-  return Editable;
+  return EditableLabel;
 }(_react2.default.Component);
 
-exports.default = Editable;
+exports.default = EditableLabel;
 
 
-Editable.propTypes = {
+EditableLabel.propTypes = {
   text: _propTypes2.default.string.isRequired,
+  icon: _propTypes2.default.any,
   isEditing: _propTypes2.default.bool,
-  isEditable: _propTypes2.default.bool,
   emptyEdit: _propTypes2.default.bool,
-  validateOnEnterKey: _propTypes2.default.bool,
-  cancelOnEscapeKey: _propTypes2.default.bool,
   labelPlaceHolder: _propTypes2.default.string,
 
   labelClassName: _propTypes2.default.string,
