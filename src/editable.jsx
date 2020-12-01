@@ -11,10 +11,13 @@ export default class EditableLabel extends React.Component {
     this.state = {
       isEditing: this.props.isEditing || false,
       text: this.props.text || "",
+      hover: false,
     }
 
     this.icon = this.props.icon
 
+    this._handleMouseEnter = this._handleMouseEnter.bind(this)
+    this._handleMouseLeave = this._handleMouseLeave.bind(this)
     this._handleFocus = this._handleFocus.bind(this)
     this._handleChange = this._handleChange.bind(this)
     this._handleKeyDown = this._handleKeyDown.bind(this)
@@ -22,6 +25,7 @@ export default class EditableLabel extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
+      ...this.state,
       text: nextProps.text || "",
       isEditing: this.state.isEditing || nextProps.isEditing || false
     })
@@ -29,6 +33,13 @@ export default class EditableLabel extends React.Component {
 
   _isTextValueValid() {
     return (typeof this.state.text != "undefined" && this.state.text.trim().length > 0)
+  }
+
+  _handleMouseEnter () {
+    this.setState({ ...this.state, hover: true });
+  }
+  _handleMouseLeave () {
+    this.setState({ ...this.state, hover: false });
   }
 
   _handleFocus() {
@@ -103,20 +114,19 @@ export default class EditableLabel extends React.Component {
 
     const labelText = this._isTextValueValid() ? this.state.text : (this.props.labelPlaceHolder || DEFAULT_LABEL_PLACEHOLDER)
     const iconLabel = this.icon
+    const hover = this.state.hover
+    
 
-    const styles = {
-      myStyleDiv: {
+    return <div onClick={this._handleFocus} 
+      style={{
         cursor: 'pointer',
         transition: 'all .3s ease-in-out',
-
-        '&:hover': {
-          borderLeft: '1px solid #555555',
-          borderBottom: '1px dashed #555555'
-        }
-      }
-    }
-    return <div onClick={this._handleFocus} 
-      className={styles.myStyleDiv}
+        ...(hover && {
+          borderLeft: '1px solid #555555'
+        })
+      }}
+      onMouseOver={this._handleMouseEnter}
+      onMouseLeave={this._handleMouseLeave}
     >
       <label 
         style={{

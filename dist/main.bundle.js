@@ -1446,6 +1446,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(2);
@@ -1477,11 +1479,14 @@ var EditableLabel = function (_React$Component) {
 
     _this.state = {
       isEditing: _this.props.isEditing || false,
-      text: _this.props.text || ""
+      text: _this.props.text || "",
+      hover: false
     };
 
     _this.icon = _this.props.icon;
 
+    _this._handleMouseEnter = _this._handleMouseEnter.bind(_this);
+    _this._handleMouseLeave = _this._handleMouseLeave.bind(_this);
     _this._handleFocus = _this._handleFocus.bind(_this);
     _this._handleChange = _this._handleChange.bind(_this);
     _this._handleKeyDown = _this._handleKeyDown.bind(_this);
@@ -1491,15 +1496,25 @@ var EditableLabel = function (_React$Component) {
   _createClass(EditableLabel, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      this.setState({
+      this.setState(_extends({}, this.state, {
         text: nextProps.text || "",
         isEditing: this.state.isEditing || nextProps.isEditing || false
-      });
+      }));
     }
   }, {
     key: '_isTextValueValid',
     value: function _isTextValueValid() {
       return typeof this.state.text != "undefined" && this.state.text.trim().length > 0;
+    }
+  }, {
+    key: '_handleMouseEnter',
+    value: function _handleMouseEnter() {
+      this.setState(_extends({}, this.state, { hover: true }));
+    }
+  }, {
+    key: '_handleMouseLeave',
+    value: function _handleMouseLeave() {
+      this.setState(_extends({}, this.state, { hover: false }));
     }
   }, {
     key: '_handleFocus',
@@ -1584,22 +1599,19 @@ var EditableLabel = function (_React$Component) {
 
       var labelText = this._isTextValueValid() ? this.state.text : this.props.labelPlaceHolder || DEFAULT_LABEL_PLACEHOLDER;
       var iconLabel = this.icon;
+      var hover = this.state.hover;
 
-      var styles = {
-        myStyleDiv: {
-          cursor: 'pointer',
-          transition: 'all .3s ease-in-out',
-
-          '&:hover': {
-            borderLeft: '1px solid #555555',
-            borderBottom: '1px dashed #555555'
-          }
-        }
-      };
       return _react2.default.createElement(
         'div',
         { onClick: this._handleFocus,
-          className: styles.myStyleDiv
+          style: _extends({
+            cursor: 'pointer',
+            transition: 'all .3s ease-in-out'
+          }, hover && {
+            borderLeft: '1px solid #555555'
+          }),
+          onMouseOver: this._handleMouseEnter,
+          onMouseLeave: this._handleMouseLeave
         },
         _react2.default.createElement(
           'label',
