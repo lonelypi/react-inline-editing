@@ -443,17 +443,18 @@ var EditableLabel = function (_React$Component) {
 
             return _react2.default.createElement(
                 'div',
-                { onClick: this.handleFocus },
+                null,
                 _react2.default.createElement(
                     'label',
                     { className: this.props.labelClassName,
+                        onClick: this.handleFocus,
                         style: {
                             fontSize: this.props.labelFontSize,
                             fontWeight: this.props.labelFontWeight
                         } },
-                    labelText
-                ),
-                iconLabel
+                    labelText,
+                    iconLabel
+                )
             );
         }
     }]);
