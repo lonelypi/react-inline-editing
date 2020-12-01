@@ -1456,8 +1456,6 @@ var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-__webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./styles/index.css\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1588,17 +1586,39 @@ var EditableLabel = function (_React$Component) {
       var iconLabel = this.icon;
       return _react2.default.createElement(
         'div',
-        { onClick: this._handleFocus, className: 'divContainer' },
+        { onClick: this._handleFocus,
+          style: {
+            cursor: 'pointer',
+            transition: 'all .3s ease-in-out',
+
+            "&:hover": {
+              borderLeft: '1px solid #555555',
+              borderBottom: '1px dashed #555555'
+            },
+
+            "span": {
+              visibility: 'hidden',
+
+              "&:hover": {
+                visibility: 'visible'
+              }
+            }
+          }
+        },
         _react2.default.createElement(
           'label',
-          { className: 'labelContent',
+          {
             style: {
               fontSize: this.props.labelFontSize,
               fontWeight: this.props.labelFontWeight
             } },
           labelText
         ),
-        iconLabel
+        _react2.default.createElement(
+          'span',
+          null,
+          iconLabel
+        )
       );
     }
   }]);

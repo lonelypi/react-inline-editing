@@ -9,7 +9,7 @@ var path = require('path');
          libraryTarget: 'commonjs2'
      },
      module: {
-         loaders: [
+         rules: [
              {
                  test: /\.js(x)$/,
                  loader: 'babel-loader',

@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import './styles/index.css'
-
 const ENTER_KEY_CODE = 13
 const DEFAULT_LABEL_PLACEHOLDER = "Click To Edit"
 
@@ -105,15 +103,33 @@ export default class EditableLabel extends React.Component {
 
     const labelText = this._isTextValueValid() ? this.state.text : (this.props.labelPlaceHolder || DEFAULT_LABEL_PLACEHOLDER)
     const iconLabel = this.icon
-    return <div onClick={this._handleFocus} className='divContainer'>
-      <label className='labelContent' 
+    return <div onClick={this._handleFocus} 
+      style={{
+        cursor: 'pointer',
+        transition: 'all .3s ease-in-out',
+
+        "&:hover": {
+          borderLeft: '1px solid #555555',
+          borderBottom: '1px dashed #555555'
+        },
+
+        "span": {
+          visibility: 'hidden',
+
+          "&:hover": {
+            visibility: 'visible'
+          }
+        }
+      }}
+    >
+      <label 
         style={{
           fontSize: this.props.labelFontSize,
           fontWeight: this.props.labelFontWeight,
         }}>
         {labelText}
       </label>
-      {iconLabel}
+      <span>{iconLabel}</span>
     </div>
   }
 }
